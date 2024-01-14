@@ -4,7 +4,7 @@ const requestService = require('./services/requests')
 
 let userVerified = false
 
-const selectAccount = async () => {
+const selectAssetAccount = async () => {
     const accounts = await fireflyService.getAssetsAccounts()
     accounts.sort((a, b) => b.title > a.title ? -1 : 1 )
     accounts.push({ title: 'return to home', value: 'home' })
@@ -17,9 +17,35 @@ const selectAccount = async () => {
 
     if (response.action === 'home') interactiveCLI()
     else {
-        console.log(`This path will eventually take you to a detailed view for ${response.action}`)
+        console.log(`NOT IMPLEMENTED: Detailed view for ${response.action}`)
         interactiveCLI()
     }
+}
+
+const selectTransactionType = async (canBeAll) => {
+    const transTypes = [
+        {title: 'deposits', value: 'deposits'},
+        {title: 'transfers', value: 'transfers'},
+        {title: 'withdrawals', value: 'withdrawals'},
+    ]
+    if (canBeAll) transTypes.push({title: 'all', value: 'all'})
+    transTypes.push({title: 'home', value: 'home'})
+
+    const response = await prompts({
+        type: 'select',
+        name: 'action',
+        message: 'which type of transaction would you like to view?',
+        choices: transTypes
+    })
+
+    if (response.action === 'home') interactiveCLI()
+    else browseTransactions(response.action, 0)
+}
+
+
+const browseTransactions = async (transType, page) => {
+    console.log(`NOT IMPLEMENTED: view page ${page} of ${transType} transactions`)
+    interactiveCLI()
 }
 
 
@@ -36,6 +62,7 @@ const interactiveCLI = async () => {
         choices: [
             { title: 'get my net worth', value: 'worth' },
             { title: 'view my accounts', value: 'accounts' },
+            { title: 'view my transactions', value: 'transactions'},
             { title: 'exit', value: 'exit' },
         ]
     })
@@ -46,7 +73,10 @@ const interactiveCLI = async () => {
             interactiveCLI()
             break
         case 'accounts':
-            selectAccount()
+            selectAssetAccount()
+            break
+        case 'transactions':
+            selectTransactionType(true)
             break
         case 'exit':
             return
