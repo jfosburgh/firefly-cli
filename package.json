@@ -1,0 +1,25 @@
+{
+  "name": "firefly-cli",
+  "version": "1.0.0",
+  "description": "A CLI tool for interacting with your FireflyIII server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --env-file=.env index.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jfosburgh/firefly-cli.git"
+  },
+  "author": "James Fosburgh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jfosburgh/firefly-cli/issues"
+  },
+  "homepage": "https://github.com/jfosburgh/firefly-cli#readme",
+  "dependencies": {
+    "axios": "^1.6.5",
+    "commander": "^11.1.0",
+    "eslint": "^8.56.0"
+  }
+}
