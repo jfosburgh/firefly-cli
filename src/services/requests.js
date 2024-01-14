@@ -31,13 +31,12 @@ const getAccount = async(id) => {
 }
 
 const getTransactions = async (account_id=null, type='all', limit=10, page=1) => {
-    let url = `${baseURL}/api/vi/transactions`
+    let url = `${baseURL}/api/v1/transactions`
     let params = {type, limit, page}
     if (account_id) {
         url = `${baseURL}/api/v1/accounts/${account_id}/transactions`
         params = {...params, id:account_id}
     }
-    console.log(`querying ${url}`)
     try {
         const response = await axios.get(url, {
             headers: {'Authorization': authHeader},
