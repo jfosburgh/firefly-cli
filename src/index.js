@@ -1,5 +1,6 @@
 const { Command } = require('commander')
-const requestService = require('./services/requests')
+const interactiveCLI = require('./interactive')
+const fireflyService = require('./services/firefly')
 
 const program = new Command()
 program
@@ -15,8 +16,13 @@ program.command('verify')
 program.command('worth')
     .description('print your net worth')
     .action(async () => {
-        const data = await requestService.summary()
-        console.log(`Your current net worth is ${data['net-worth-in-USD'].value_parsed}`)
+        console.log(`Your net worth is ${await fireflyService.netWorth()}`)
+    })
+
+program.command('interactive', {isDefault: true})
+    .description('explore the program in an interactive shell')
+    .action(async () => {
+        await interactiveCLI()
     })
 
 program.parse()
