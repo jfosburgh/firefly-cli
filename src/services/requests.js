@@ -18,6 +18,38 @@ const getAccounts = async (type, limit, page) => {
     }
 }
 
+const getAccount = async(id) => {
+    try {
+        const response = await axios.get(`${baseURL}/api/v1/accounts/${id}`, {
+            headers: { 'Authorization': authHeader }
+        })
+        return response.data['data']
+    } catch (error) {
+        if (error.response.data) console.log(error.response.data['message'])
+        else console.log(error)
+    }
+}
+
+const getTransactions = async (account_id=null, type='all', limit=10, page=1) => {
+    let url = `${baseURL}/api/vi/transactions`
+    let params = {type, limit, page}
+    if (account_id) {
+        url = `${baseURL}/api/v1/accounts/${account_id}/transactions`
+        params = {...params, id:account_id}
+    }
+    console.log(`querying ${url}`)
+    try {
+        const response = await axios.get(url, {
+            headers: {'Authorization': authHeader},
+            params,
+        })
+        return response.data['data']
+    } catch (error) {
+        if (error.response) console.log(error.response.data['message'])
+        else console.log(error)
+    }
+}
+
 const verify = async () => {
     const url = `${baseURL}/api/v1/about/user`
     try {
@@ -54,4 +86,4 @@ const summary = async () => {
 }
 
 
-module.exports = { verify, summary, getAccounts }
+module.exports = { verify, summary, getAccounts, getAccount, getTransactions }

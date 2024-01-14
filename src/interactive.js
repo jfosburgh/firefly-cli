@@ -17,8 +17,45 @@ const selectAssetAccount = async () => {
 
     if (response.action === 'home') interactiveCLI()
     else {
-        console.log(`NOT IMPLEMENTED: Detailed view for ${response.action}`)
-        interactiveCLI()
+        viewAssetAccount(response.action)
+    }
+}
+
+const viewAssetAccount = async (id) => {
+    const account = await fireflyService.getAssetAccountOverview(id)
+    console.log(`\nOverview for ${account.name}`)
+    console.log(`Current Balance: \$${account.balance}`)
+    console.log(`Most recent transactions:`)
+    for (let transaction of account.transactions) {
+        let direction = '-'
+        if (transaction.source !== account.name) direction = '+'
+        console.log(`${transaction.date}: ${direction}\$${transaction.amount.slice(0, transaction.amount.indexOf('.'))} ${direction === '-' ? 'to' : 'from'} ${direction === '-' ? transaction.destination : transaction.source}`) 
+    }
+
+    const response = await prompts({
+        type: 'select',
+        name: 'action',
+        message: '',
+        choices: [
+            {title: 'view all transactions', value: 'transactions'},
+            {title: 'back to accounts', value: 'accounts'},
+            {title: 'home', value: 'home'},
+        ]
+    })
+
+    switch (response.action) {
+        case 'home':
+            interactiveCLI()
+            break
+        case 'accounts':
+            selectAssetAccount()
+            break
+        case 'transactions':
+            browseTransactions('all', 1, account.id) 
+            break
+        case 'default':
+            selectAssetAccount()
+            break
     }
 }
 
@@ -43,8 +80,8 @@ const selectTransactionType = async (canBeAll) => {
 }
 
 
-const browseTransactions = async (transType, page) => {
-    console.log(`NOT IMPLEMENTED: view page ${page} of ${transType} transactions`)
+const browseTransactions = async (transType, page, account=null) => {
+    console.log(`NOT IMPLEMENTED: view page ${page} of ${transType} transactions from ${account ? account : 'all accounts'}`)
     interactiveCLI()
 }
 
