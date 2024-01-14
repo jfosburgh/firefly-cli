@@ -49,6 +49,18 @@ const getTransactions = async (account_id=null, type='all', limit=10, page=1) =>
     }
 }
 
+const getTransaction = async (id) => {
+    try {
+        const response = await axios.get(`${baseURL}/api/v1/transaction-journals/${id}`, {
+            headers: {'Authorization': authHeader},
+        })
+        return response.data['data']
+    } catch (error) {
+        if (error.response) console.log(error.response.data['message'])
+        else console.log(error)
+    }
+}
+
 const verify = async () => {
     const url = `${baseURL}/api/v1/about/user`
     try {
@@ -85,4 +97,4 @@ const summary = async () => {
 }
 
 
-module.exports = { verify, summary, getAccounts, getAccount, getTransactions }
+module.exports = { verify, summary, getAccounts, getAccount, getTransactions, getTransaction }

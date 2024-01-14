@@ -117,8 +117,48 @@ const browseTransactions = async (transType, page, account=null) => {
 }
 
 const viewTransaction = async (id) => {
-    console.log(`NOT IMPLEMENTED: detailed view for transaction ${id}`)
-    interactiveCLI()
+    const transaction = await fireflyService.getTransaction(id)
+    console.log(transaction['description'])
+    console.log('Date:', transaction['date'].substring(0, 10));
+    console.log('Amount:', '$'+transaction['amount'].substring(0, transaction['amount'].indexOf('.')+3))
+    console.log('Source:', transaction['source_name'])
+    console.log('Destination:', transaction['destination_name'])
+    console.log('Type:', transaction['type'])
+    console.log('Category:', transaction['category_name'] ? transaction['category_name'] : 'None')
+    console.log('Budget:', transaction['budget_name'] ? transaction['budget_name'] : 'None')
+
+    const response = await prompts({
+        type: 'select',
+        name: 'action',
+        message: '',
+        choices: [
+            {title: 'edit this transaction', value: 'edit', disabled: true},
+            {title: 'delete this transaction', value: 'delete', disabled: true},
+            {title: 'create a new transaction', value: 'create', disabled: true},
+            {title: 'home', value: 'home'}
+        ]
+    })
+
+    switch (response.action) {
+        case 'home':
+            interactiveCLI()
+            break
+        case 'edit':
+            console.log(`NOT IMPLEMENTED: edit transaction ${id}`)
+            interactiveCLI()
+            break
+        case 'delete':
+            console.log(`NOT IMPLEMENTED: delete transaction ${id}`)
+            interactiveCLI()
+            break
+        case 'create':
+            console.log('NOT IMPLEMENTED: create new transaction')
+            interactiveCLI()
+            break
+        default:
+            interactiveCLI()
+            break
+    }
 }
 
 const interactiveCLI = async () => {
@@ -154,7 +194,6 @@ const interactiveCLI = async () => {
             return
         default:
             throw Error(`Case ${response.action} not handled`)
-
     }
 }
 

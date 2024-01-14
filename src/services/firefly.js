@@ -37,9 +37,14 @@ const getTransactions = async (id, type, limit, page) => {
     })
 }
 
+const getTransaction = async (id) => {
+    const transaction = await requestService.getTransaction(id)
+    return transaction['attributes']['transactions'][0]
+}
+
 const netWorth = async (data) => {
     if (!data) data = await requestService.summary()
     return data['net-worth-in-USD'].value_parsed
 }
 
-module.exports = { netWorth, getAssetsAccounts, getAssetAccountOverview, getTransactions }
+module.exports = { netWorth, getAssetsAccounts, getAssetAccountOverview, getTransactions, getTransaction }
