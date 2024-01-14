@@ -1,6 +1,8 @@
 const prompts = require("prompts")
 const fireflyService = require('./services/firefly')
+const requestService = require('./services/requests')
 
+let userVerified = false
 
 const selectAccount = async () => {
     const accounts = await fireflyService.getAssetsAccounts()
@@ -22,7 +24,10 @@ const selectAccount = async () => {
 
 
 const interactiveCLI = async () => {
-    console.log('entering interactive shell')
+    if (!userVerified) {
+        await requestService.verify()
+        userVerified = true
+    }
 
     const response = await prompts({
         type: 'select',

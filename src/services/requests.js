@@ -2,7 +2,7 @@ const axios = require('axios')
 
 const baseURL = process.env.URL
 const authHeader = `Bearer ${process.env.TOKEN}`
-
+let userCreated = null
 
 const getAccounts = async (type, limit, page) => {
     try {
@@ -27,13 +27,14 @@ const verify = async () => {
             },
         })
         console.log(`Successfully Authenticated user with email ${response.data['data']['attributes']['email']} at ${baseURL}`)
+        userCreated = response.data['data']['attributes']['created_at'].substring(0,10);
     } catch (error) {
-        console.log(`Authentication unsuccessfuly at ${baseURL} with error message: ${error.response.data['message']}`)
+        throw Error(`Authentication unsuccessfuly at ${baseURL} with error message: ${error.response.data['message']}`)
     }
 }
 
 const summary = async () => {
-    const start = new Date(new Date().getTime() - 24 * 60 * 60 * 1000).toISOString().substring(0, 10)
+    const start = userCreated ? userCreated : new Date(new Date().getTime() - 24 * 60 * 60 * 1000).toISOString().substring(0, 10)
     const end = new Date().toISOString().substring(0, 10)
 
     try {
