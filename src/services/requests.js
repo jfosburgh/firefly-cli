@@ -4,6 +4,20 @@ const baseURL = process.env.URL
 const authHeader = `Bearer ${process.env.TOKEN}`
 
 
+const getAccounts = async (type, limit, page) => {
+    try {
+        const response = await axios.get(`${baseURL}/api/v1/accounts`, {
+            headers: {
+                'Authorization': authHeader
+            },
+            params: {type, limit, page}
+        })
+        return response.data['data']
+    } catch (error) {
+        console.log(error.response.data['message'])
+    }
+}
+
 const verify = async () => {
     const url = `${baseURL}/api/v1/about/user`
     try {
@@ -39,4 +53,4 @@ const summary = async () => {
 }
 
 
-module.exports = { verify, summary }
+module.exports = { verify, summary, getAccounts }
