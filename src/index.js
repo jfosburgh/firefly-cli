@@ -12,6 +12,13 @@ program.command('verify')
         await requestService.verify()
     })
 
+program.command('worth')
+    .description('print your net worth')
+    .action(async () => {
+        const data = await requestService.summary()
+        console.log(`Your current net worth is ${data['net-worth-in-USD'].value_parsed}`)
+    })
+
 program.parse()
 
 
