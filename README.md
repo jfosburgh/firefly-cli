@@ -3,7 +3,8 @@ A command line interface for interacting with your [FireflyIII](https://www.fire
 
 ## Features
 - [x] User authentication
-- [ ] Fetch summary data
-- [ ] Fetch account data
-- [ ] Fetch transactions
+- [x] Fetch summary data
+- [x] Fetch account data
+- [x] Fetch transactions
+- [ ] Fetch individual transaction details
 - [ ] Create transactions
