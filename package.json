@@ -4,7 +4,7 @@
   "description": "A CLI tool for interacting with your FireflyIII server",
   "main": "index.js",
   "scripts": {
-    "start": "node --env-file=.env index.js",
+    "start": "node --env-file=.env src/index.js",
     "test": "jest"
   },
   "repository": {

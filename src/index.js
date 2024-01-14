@@ -1,5 +1,5 @@
 const { Command } = require('commander')
-const requestService = require('./requests')
+const requestService = require('./services/requests')
 
 const program = new Command()
 program
